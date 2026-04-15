@@ -7,8 +7,7 @@ async function testAccommodationAPI() {
     const response = await axios.post('http://localhost:5000/api/search-hotels', {
       location: 'Bali',
       checkIn: '2025-10-24',
-      checkOut: '2025-10-25',
-      guests: 2
+      checkOut: '2025-10-25'
     });
     
     console.log('✅ API Test Successful!');

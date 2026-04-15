@@ -60,7 +60,6 @@ export const findDestinations = async (req, res) => {
       destinations.push({
         name: `${travelType.charAt(0).toUpperCase() + travelType.slice(1)} Destinations in ${season}`,
         state: "Various States in India",
-        averageBudget: parseInt(budget),
         bestSeason: season,
         type: travelType,
         description: aiSummary,
@@ -77,12 +76,10 @@ export const findDestinations = async (req, res) => {
         
         // Default values
         const defaultState = "Various States";
-        const defaultBudget = parseInt(budget) * 0.8; // 80% of max budget as estimate
         
         return {
           name: name,
           state: defaultState,
-          averageBudget: defaultBudget,
           bestSeason: season,
           type: travelType,
           description: result.snippet || "A perfect destination for your trip",

@@ -68,16 +68,7 @@ const generateFallbackTripPlan = (destination, startDate, endDate, budget) => {
   }
 
   const flightPercentage = tripDays <= 3 ? 0.5 : tripDays <= 7 ? 0.4 : 0.35;
-  const accommodationPercentage = tripDays <= 3 ? 0.25 : tripDays <= 7 ? 0.3 : 0.35;
-  const activitiesPercentage = 0.15;
-  const foodPercentage = 0.1;
-  
   return {
-    destination: destination,
-    startDate: startDate,
-    endDate: endDate,
-    budget: budget,
-    tripDuration: `${tripDays} days`,
     itinerary: itinerary,
     flights: [
       `Book round-trip flights to ${destination}`,
@@ -91,27 +82,7 @@ const generateFallbackTripPlan = (destination, startDate, endDate, budget) => {
       `Look for hotels with breakfast included`,
       `Check for package deals that include airport transfers`
     ],
-    activities: [
-      `Visit top-rated attractions in ${destination}`,
-      `Try local cuisine at recommended restaurants`,
-      `Take guided tours for better understanding of local culture`,
-      `Allocate budget for shopping and souvenirs`,
-      `Consider booking activities in advance to avoid disappointment`
-    ],
-    places: getPlaces(destination),
-    budgetBreakdown: {
-      flights: Math.round(budget * flightPercentage),
-      accommodation: Math.round(budget * accommodationPercentage),
-      activities: Math.round(budget * activitiesPercentage),
-      food: Math.round(budget * foodPercentage)
-    },
-    tips: [
-      `Carry cash for small vendors and shops`,
-      `Download offline maps for navigation`,
-      `Learn a few local phrases to enhance your experience`,
-      `Check weather forecast before packing`,
-      `Keep emergency contact numbers handy`
-    ]
+    places: getPlaces(destination)
   };
 };
 
@@ -179,16 +150,6 @@ If the budget is sufficient for a decent trip, you MUST return a JSON object wit
     "Hotel recommendation 1 (suggest specific real hotels/hostels/resorts in ${destination} suitable for a total trip budget of ₹${budget})",
     "Hotel recommendation 2",
     ... (list 3-4 suggestions)
-  ],
-  "activities": [
-    "Must-try experience 1 (e.g. local foods to eat, cultural tours, adventure activities)",
-    "Must-try experience 2",
-    ... (list 3-5 suggestions)
-  ],
-  "tips": [
-    "Practical/budget travel tip 1 (e.g. local transport options like buses/metro/rentals, weather warning, currency/cash advice)",
-    "Practical/budget travel tip 2",
-    ... (list 3-5 tips)
   ]
 }
 
@@ -254,17 +215,10 @@ Make sure to provide actual, real-world options (airlines, specific hotels, attr
 
       const plan = {
         insufficientBudget: false,
-        destination,
-        startDate,
-        endDate,
-        budget,
-        tripDuration: `${tripDays} days`,
         itinerary: parsedPlan.itinerary || [],
         places: parsedPlan.places || [],
         flights: parsedPlan.flights || [],
-        hotels: parsedPlan.hotels || [],
-        activities: parsedPlan.activities || [],
-        tips: parsedPlan.tips || []
+        hotels: parsedPlan.hotels || []
       };
 
       return res.json({ success: true, plan });

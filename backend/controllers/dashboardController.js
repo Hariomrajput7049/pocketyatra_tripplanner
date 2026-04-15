@@ -1,4 +1,3 @@
-import Trip from "../models/Trip.js";
 import { User } from "../models/User.js";
 
 // ------------------ DASHBOARD CONTROLLER ------------------
@@ -12,18 +11,8 @@ export const getDashboardData = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Fetch user trips
-    const trips = await Trip.find({ userId }).sort({ date: -1 });
-    const totalTrips = trips.length;
-    const totalBudget = trips.reduce((sum, t) => sum + (t.budget || 0), 0);
-    const upcoming = trips.filter((t) => new Date(t.date) > new Date()).length;
-
     res.status(200).json({
       user: { name: user.name },
-      totalTrips,
-      savedBudgets: totalBudget,
-      upcomingFlights: upcoming,
-      recentTrips: trips,
     });
   } catch (err) {
     console.error("Dashboard error:", err);

@@ -1,6 +1,5 @@
 import { getJson } from "serpapi";
 import dotenv from "dotenv";
-import { getUsdToInrRate } from "../utils/currency.js";
 dotenv.config();
 
 export const searchFlights=async(req,res)=>{
@@ -19,12 +18,7 @@ export const searchFlights=async(req,res)=>{
                    departure_time:"10:00 AM",
                    arrival_time:"12:30 PM",
                    duration:"2h 30m",
-                   price_in_inr:5400,
-                   price_in_usd:65,
-                   details:`Non-stop flight from ${from} to ${to} (${depart})`,
-                   is_round_trip:!!returnDate,
-                   seats_available:Math.floor(Math.random()*30)+1,
-                   cabin_class:"Economy"
+                   details:`Non-stop flight from ${from} to ${to} (${depart})`
                 },
                 {
                     id:2,
@@ -33,12 +27,7 @@ export const searchFlights=async(req,res)=>{
                     departure_time:"02:15 PM",
                     arrival_time:"04:45 PM",
                     duration:"2h 30m",
-                    price_in_inr:6100,
-                    price_in_usd:73,
-                    details:`Non-stop flight from ${from} to ${to} (${depart})`,
-                    is_round_trip:!!returnDate,
-                    seats_available:Math.floor(Math.random()*30)+1,
-                    cabin_class:"Economy"
+                    details:`Non-stop flight from ${from} to ${to} (${depart})`
                 },
                 {
                     id:3,
@@ -47,12 +36,7 @@ export const searchFlights=async(req,res)=>{
                     departure_time:"06:00 PM",
                     arrival_time:"08:30 PM",
                     duration:"2h 30m",
-                    price_in_inr:5900,
-                    price_in_usd:71,
-                    details:`Non-stop flight from ${from} to ${to} (${depart})`,
-                    is_round_trip:!!returnDate,
-                    seats_available:Math.floor(Math.random()*30)+1,
-                    cabin_class:"Economy"
+                    details:`Non-stop flight from ${from} to ${to} (${depart})`
                 }
             ];
             console.log("Using dummy flight data. Set SERP_API_KEY in .env to use real flight data");
@@ -96,7 +80,6 @@ export const searchFlights=async(req,res)=>{
         }
         const bestFlights=json.best_flights || [];
         const otherFlights=json.other_flights||[];
-        const usdToInrRate = await getUsdToInrRate();
         const formatFlights=(flights)=>{
             let idCounter=1;
             const formattedList=[];
@@ -164,21 +147,11 @@ export const searchFlights=async(req,res)=>{
                     flight_number:flightSegments.map(s=>s.flight_number||'').filter(f=>f).join('/'),
                     departure_time: formatTime(firstSegment.departure_time?.time || firstSegment.departure_time || firstSegment.departure_airport?.time),
                     arrival_time: formatTime(lastSegment.arrival_time?.time || lastSegment.arrival_time || lastSegment.arrival_airport?.time),
-                    departure_airport:firstSegment.departure_airport?.name||firstSegment.departure_airport?.id||from,
-                    arrival_airport:lastSegment.arrival_airport?.name||lastSegment.arrival_airport?.id||to,
                     duration: totalDuration ? `${Math.floor(totalDuration/60)}h ${totalDuration%60}m` : 'N/A',
-                    price_in_inr: price ? Math.round(price) : 5000 + Math.floor(Math.random() * 3000),
-                    price_in_usd: price ? Math.round(price / usdToInrRate) : 60 + Math.floor(Math.random() * 40),
                     details:flightSegments.length>1
                             ? `${flightSegments.length-1} stop${flightSegments.length>2 ? 's':''}${layoverInfo ? ' - '+layoverInfo:''}`
                             :'Non-stop',
-                    stops: flightSegments.length-1,
-                    layovers:layoverInfo,
-                    carbon_emissions: flightGroup.carbon_emissions?.this_flight ? `${(flightGroup.carbon_emissions.this_flight / 1000).toFixed(0)} kg`:null,
-                    booking_token:flightGroup.booking_token||null,
-                    is_round_trip: !!returnDate,
-                    seats_available: Math.floor(Math.random() * 30) + 1,
-                    cabin_class: "Economy"
+                    booking_token:flightGroup.booking_token||null
                 });
             }
             return formattedList;

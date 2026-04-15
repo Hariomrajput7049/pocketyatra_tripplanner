@@ -6,8 +6,7 @@ export default function AccommodationSearch() {
   const [form, setForm] = useState({
     location: "",
     checkIn: "",
-    checkOut: "",
-    guests: 1,
+    checkOut: ""
   });
 
   const [hotels, setHotels] = useState([]);

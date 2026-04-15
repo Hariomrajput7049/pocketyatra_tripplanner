@@ -20,32 +20,28 @@ export const searchHotels = async (req, res) => {
           location: location,
           rating: "4.5",
           rooms: "25",
-          pricePerNight: 8500,
-          amenities: ["WiFi", "Pool", "Spa", "Restaurant"]
+          pricePerNight: 8500
         },
         {
           name: "Marriott Resort",
           location: location,
           rating: "4.3",
           rooms: "18",
-          pricePerNight: 7200,
-          amenities: ["WiFi", "Pool", "Gym", "Restaurant"]
+          pricePerNight: 7200
         },
         {
           name: "Holiday Inn Express",
           location: location,
           rating: "4.1",
           rooms: "32",
-          pricePerNight: 4500,
-          amenities: ["WiFi", "Breakfast", "Parking"]
+          pricePerNight: 4500
         },
         {
           name: "Budget Stay Inn",
           location: location,
           rating: "3.8",
           rooms: "45",
-          pricePerNight: 2800,
-          amenities: ["WiFi", "Parking"]
+          pricePerNight: 2800
         }
       ];
 
@@ -95,13 +91,7 @@ export const searchHotels = async (req, res) => {
           location: property.address || location,
           rating: property.overall_rating ? property.overall_rating.toString() : "N/A",
           rooms: property.rooms_available ? property.rooms_available.toString() : "N/A",
-          pricePerNight: convertedPrice,
-          amenities: property.amenities || ["WiFi", "Parking"],
-          image: property.images && property.images[0] ? property.images[0].thumbnail : "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400",
-          description: property.description || "Comfortable accommodation",
-          link: property.link || "#",
-          reviews: property.reviews || 0,
-          hotelClass: property.hotel_class || "Hotel"
+          pricePerNight: convertedPrice
         };
       });
     }
@@ -114,10 +104,7 @@ export const searchHotels = async (req, res) => {
           location: location,
           rating: "4.0",
           rooms: "20",
-          pricePerNight: 5000,
-          amenities: ["WiFi", "Pool"],
-          image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400",
-          description: "Scenic hotel with mountain views"
+          pricePerNight: 5000
         }
       ];
     }
@@ -133,10 +120,7 @@ export const searchHotels = async (req, res) => {
         location: location,
         rating: "4.2",
         rooms: "30",
-        pricePerNight: 6000,
-        amenities: ["WiFi", "Pool", "Restaurant"],
-        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400",
-        description: "Premium hotel with excellent service"
+        pricePerNight: 6000
       }
     ];
     
